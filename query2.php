@@ -17,11 +17,18 @@ echo "Connected successfully";
 
 <body style=background-color:#000>
     <div id="main-wrapper">
-        <center><h1>Results</h1></center>
-            <div id="results">
+    <center><h1>Results<br></h1></center>
+        <h3><center>
+        <?php
+            $CountryName = $_SESSION['CountryName'];
+            $CardColor = $_SESSION['CardColor'];
+            $count = 0;
+            printf("Country Name = %s<br>", $CountryName);
+            printf("Card Color = %s", $CardColor);
+        ?>
+        </h3></center>
+            <div class="results">
                 <?php
-                    $CountryName = $_SESSION['CountryName'];
-                    $CardColor = $_SESSION['CardColor'];
                     $query = "SELECT G.GameID, P.PName FROM Card C, Player P, Game G WHERE C.TeamID = P.TeamID AND C.PNo = P.PNo AND C.GameID = G.GameID AND P.team = '$CountryName' AND C.Color = '$CardColor' ORDER BY G.GameID ASC, P.PName ASC ";
                     $query_run = mysqli_query($con, $query);
                     if($query_run){
@@ -36,6 +43,7 @@ echo "Connected successfully";
                                     <td>'.$row['GameID'].'</td> 
                                     <td>'.$row['PName'].'</td> 
                                 </tr>';
+                                $count++;
                             }
 
                         }
@@ -48,9 +56,15 @@ echo "Connected successfully";
                     }
                     
                 ?>
-
-<center><button onclick="location.href='index.php';" id="btn_back" name="back_btn" type="submit">Search Again</button></center>
+                <center><h3>
+                <?php
+                printf("Total number of Results = %d", $count);
+                //session_unset();
+                //session_destroy();
+                ?>
+                </h3></center>
             </div>
+            <center><button onclick="location.href='index.php';" id="btn_back" name="back_btn" type="submit">Search Again</button></center>
     </div>
 
 </body>
